@@ -1,0 +1,18 @@
+
+#actualValueSlider {
+    height: 400px;
+    float:left;
+}
+
+#mainCanvas {
+    border: 1px solid;
+    height: 400px;
+    width: calc(100% - 5px);
+}
+
+#canvasContainer {
+    float: none;
+    overflow: hidden;
+    display: block;
+    position:static
+}
