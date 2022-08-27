@@ -1,3 +1,8 @@
+let actualValueColor = 'rgba(255,255,255,1)';
+let pt1Color = 'rgba(255,0,0,1)';
+let pt2Color = 'rgba(0,255,0,1)';
+let pt3Color = 'rgba(72,163,203,1)';
+
 
 let canvas;
 let ctx;
@@ -9,6 +14,23 @@ let fps = 0;
 let lastFrameUpdate = 0;
 let sliderValuePixels = 0;
 let lastSliderValue = 0;
+let previousSiderValue = 0;
+
+let deltaT = updateInterval / 1000.0;
+
+let initialCutoff = 0.5;
+
+let pt1 = new Pt1(initialCutoff, deltaT);
+let pt1PreviousValue = 0;
+let pt1LastValue = 0;
+
+let pt2 = new Pt2(initialCutoff, deltaT);
+let pt2PreviousValue = 0;
+let pt2LastValue = 0;
+
+let pt3 = new Pt3(initialCutoff, deltaT);
+let pt3PreviousValue = 0;
+let pt3LastValue = 0;
 
 
 $(document).ready(function() {
@@ -20,6 +42,8 @@ $(document).ready(function() {
     width = canvas.width;
     height = canvas.height;
 
+
+
     $(window).resize(function() {
         ctx.canvas.width  = jCanvas.width();
         ctx.canvas.height = jCanvas.height();
@@ -30,7 +54,7 @@ $(document).ready(function() {
 
     $("#actualValueSlider").slider({
         range: "min",
-        value: 10,
+        value: 5,
         min: 0,
         max: 100,
         step: 0.1,
@@ -38,17 +62,40 @@ $(document).ready(function() {
         //animate: "fast",
         slide: function( event, ui ) {
             sliderValuePixels = ui.value;
-        //  value = ui.value;
-        //  $(inputId).val(value);
-        //  $(inputId).change();
         }
     });
+
+    $("#cutoffSlider").slider({
+        range: "min",
+        value: initialCutoff,
+        min: 0,
+        max: 10,
+        step: 0.1,
+        //animate: "fast",
+        slide: function( event, ui ) {
+            onCutoffSliderChange(ui.value);
+        }
+    });
+
+    onCutoffSliderChange(initialCutoff);
+
+    $("#actualValueSlider").slider('value',50);
+    sliderValuePixels = 50;
+    lastSliderValue = getSliderValue();
+    previousSiderValue = getSliderValue();
 
     $(window).resize();
 
     lastFrameUpdate = performance.now();
     setTimeout(Update, updateInterval);
 });
+
+function onCutoffSliderChange(newValue) {
+    pt1.RecalculateK(newValue);
+    pt2.RecalculateK(newValue);
+    pt3.RecalculateK(newValue);
+    $("#cutoffValue").text(newValue);
+}
 
 function getSliderValue() {
     return -(sliderValuePixels * height / 100.0 - height / 2.0);
@@ -61,22 +108,63 @@ function Update() {
     lastFrameUpdate = now;
     let currentFps = 1000.0 / dt;
     fps = 0.03 * currentFps + 0.97 * fps;
-    //console.log(fps + " " + currentFps);
 
     let currentSliderValue = getSliderValue();
-    console.log(currentSliderValue);
+    let pt1CurrentValue = pt1.Apply(currentSliderValue);
+    let pt2CurrentValue = pt2.Apply(currentSliderValue);
+    let pt3CurrentValue = pt3.Apply(currentSliderValue);
+    //console.log(currentSliderValue);
 
     ctx.clearRect(0, -height/2, 2, height);
+    ctx.strokeStyle = actualValueColor;
 
     ctx.beginPath();
-    ctx.moveTo(2, lastSliderValue);
+    ctx.lineWidth = 2;
+    ctx.moveTo(4, previousSiderValue);
+    ctx.lineTo(2, lastSliderValue);
     ctx.lineTo(0, currentSliderValue);
-    //ctx.arc(0, 0, 100, 0, Math.PI * 2, true); // Outer circle
+    ctx.stroke();
+
+    ctx.strokeStyle = pt1Color;
+
+    ctx.beginPath();
+    ctx.lineWidth = 2;
+    ctx.moveTo(4, pt1PreviousValue);
+    ctx.lineTo(2, pt1LastValue);
+    ctx.lineTo(0, pt1CurrentValue);
+    ctx.stroke();
+
+    ctx.strokeStyle = pt2Color;
+
+    ctx.beginPath();
+    ctx.lineWidth = 2;
+    ctx.moveTo(4, pt2PreviousValue);
+    ctx.lineTo(2, pt2LastValue);
+    ctx.lineTo(0, pt2CurrentValue);
+    ctx.stroke();
+
+    ctx.strokeStyle = pt3Color;
+
+    ctx.beginPath();
+    ctx.lineWidth = 2;
+    ctx.moveTo(4, pt3PreviousValue);
+    ctx.lineTo(2, pt3LastValue);
+    ctx.lineTo(0, pt3CurrentValue);
     ctx.stroke();
 
     const myImageData = ctx.getImageData(0, 0, width, height);
     ctx.putImageData(myImageData, 2, 0);
 
+    pt3PreviousValue = pt3LastValue;
+    pt3LastValue = pt3CurrentValue;
+
+    pt2PreviousValue = pt2LastValue;
+    pt2LastValue = pt2CurrentValue;
+
+    pt1PreviousValue = pt1LastValue;
+    pt1LastValue = pt1CurrentValue;
+
+    previousSiderValue = lastSliderValue;
     lastSliderValue = currentSliderValue;
     let executionsEnd = performance.now();
     setTimeout(Update, updateInterval - (executionsEnd - executionsStart));

@@ -4,15 +4,27 @@
     <meta charset="utf-8">
     <title>Realtime filters visualization</title>
     <meta name="description" content="Realtime filters visualization">
-    <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="libs/jquery-ui.min.css">
     <script src="libs/jquery-3.6.0.min.js"></script>
     <script src="libs/jquery-ui.min.js"></script>
     <script src="libs/jquery.ui.touch-punch.min.js"></script>
+
+
+    <link rel="stylesheet" href="main.css">
+
+    <script src="filters/pt1.js"></script>
+    <script src="filters/pt2.js"></script>
+    <script src="filters/pt3.js"></script>
     <script src="main.js"></script>
 </head>
 <body>
-    <h1>test12</h1>
+    <div id="uiElements">
+      <div id = cutoffContainer>
+          <div id="cutoffLabel">LPF cutoff:</div>
+          <div id="cutoffValue"></div>
+          <div id="cutoffSlider" class="slider-input"></div>
+      </div>
+    </div>
     <div id="actualValueSlider" class="slider-input"></div>
     <div id="canvasContainer" width="100px">
       <canvas id="mainCanvas" width="100px" height="100px"></canvas>
