@@ -46,7 +46,7 @@ let currentNoisyValue = 0;
 let frameCount = 0;
 
 let sineNoiseAmplitude = 0;
-let sineNoiseFrequency = 10;
+let sineNoiseFrequency = 0;
 let randomNoiseAmplitude = 0;
 
 
@@ -112,7 +112,7 @@ $(document).ready(function() {
         range: "min",
         value: 0,
         min: 0,
-        max: 1,
+        max: 1.5,
         step: 0.01,
         //animate: "fast",
         slide: function( event, ui ) {
