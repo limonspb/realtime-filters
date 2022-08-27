@@ -10,6 +10,7 @@
     <script src="libs/jquery.ui.touch-punch.min.js"></script>
 
 
+    <link rel="stylesheet" href="legend.css">
     <link rel="stylesheet" href="main.css">
 
     <script src="filters/pt1.js"></script>
@@ -19,14 +20,67 @@
 </head>
 <body>
     <div id="uiElements">
-      <div id = cutoffContainer>
+      <div id ="cutoffContainer">
           <div id="cutoffLabel">LPF cutoff:</div>
           <div id="cutoffValue"></div>
           <div id="cutoffSlider" class="slider-input"></div>
       </div>
+
+      <div id="sineNoiseAmplitudeContainer" class="noise-setting-container">
+        <div id="sineNoiseAmplitudeLabel">SINE noise amplitude</div>
+        <div id="sineNoiseAmplitudeSlider" class="slider-input"></div>
+      </div>
+
+      <div id="sineNoiseFrequencyContainer" class="noise-setting-container">
+        <div id="sineNoiseFrequencyLabel">SINE noise frequency</div>
+        <div id="sineNoiseFrequencySlider" class="slider-input"></div>
+      </div>
+
+      <div id="randomNoiseAmplitudeContainer" class="noise-setting-container">
+        <div id="randomNoiseAmplitudeLabel">Random noise amplitude</div>
+        <div id="randomNoiseAmplitudeSlider" class="slider-input"></div>
+      </div>
+
     </div>
     <div id="actualValueSlider" class="slider-input"></div>
     <div id="canvasContainer" width="100px">
+      <div id="legend">
+        <div class="legend-row">
+          <div id="actualValueStyleLegend" class="legend-style"></div>
+          <div class="legend-label">
+            <input type="checkbox" name="radio-1" id="actualValueStyleLegendCheckbox" class="legend-checkbox" checked>
+            <label for="actualValueStyleLegendCheckbox">Actual value</label>
+          </div>
+        </div>
+        <div class="legend-row">
+          <div id="noisyValueStyleLegend" class="legend-style"></div>
+          <div class="legend-label">
+            <input type="checkbox" name="radio-1" id="noisyValueStyleLegendCheckbox" class="legend-checkbox" checked>
+            <label for="noisyValueStyleLegendCheckbox">Readings</label>
+          </div>
+        </div>
+        <div class="legend-row">
+          <div id="pt1ValueStyleLegend" class="legend-style"></div>
+          <div class="legend-label">
+            <input type="checkbox" name="radio-1" id="pt1ValueStyleLegendCheckbox" class="legend-checkbox" checked>
+            <label for="pt1ValueStyleLegendCheckbox">PT1</label>
+          </div>
+        </div>
+        <div class="legend-row">
+          <div id="pt2ValueStyleLegend" class="legend-style"></div>
+          <div class="legend-label">
+            <input type="checkbox" name="radio-1" id="pt2ValueStyleLegendCheckbox" class="legend-checkbox" checked>
+            <label for="pt2ValueStyleLegendCheckbox">PT2</label>
+          </div>
+        </div>
+        <div class="legend-row">
+          <div id="pt3ValueStyleLegend" class="legend-style"></div>
+          <div class="legend-label">
+            <input type="checkbox" name="radio-1" id="pt3ValueStyleLegendCheckbox" class="legend-checkbox" checked>
+            <label for="pt3ValueStyleLegendCheckbox">PT3</label>
+          </div>
+        </div>
+      </div>
       <canvas id="mainCanvas" width="100px" height="100px"></canvas>
     </div>
 

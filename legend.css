@@ -1,0 +1,21 @@
+#legend {
+    position:absolute;
+    right: 40px;
+}
+
+.legend-style {
+    display: inline-block;
+    border-top: 3px solid;
+    margin-top: 0px;
+    width: 30px;
+    height: 6px;
+}
+
+.legend-label {
+    display: inline-block;
+}
+
+.legend-checkbox {
+    width: 18px;
+    height: 18px;
+}
